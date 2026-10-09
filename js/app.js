@@ -81,8 +81,8 @@ class RomanticNarrativeController {
       this.btnChoiceYes.addEventListener('click', () => {
         this.handleChoice(
           'yes',
-          '¡Me haces el más feliz del mundo! 💖',
-          'Prometo que este será solo el comienzo de muchos momentos bonitos, sonrisas compartidas y detalles que te recuerden lo especial que eres para mí.'
+          '¡No te imaginas la ilusión que me da! 💖',
+          'No sé exactamente qué pueda pasar más adelante, pero me muero de ganas por descubrirlo contigo. Quiero conocer todas tus facetas: tus momentos felices, pero también cuando estés irritada, molesta o con tu genio... porque hasta eso me encanta y me parece súper tierno de ti jeje. Prometo cuidar cada detalle y hacer que cada momento valga la pena. ♡'
         );
       });
     }
@@ -91,8 +91,8 @@ class RomanticNarrativeController {
       this.btnChoicePace.addEventListener('click', () => {
         this.handleChoice(
           'pace',
-          'Qué bonita respuesta... 🌸',
-          'Lo más bonito es que podamos disfrutar cada momento, sin prisa y con mucho cariño. Me ilusiona muchísimo seguir conociéndote paso a paso.'
+          'Paso a paso, con todo el corazón... 🌸',
+          'Sin prisas y disfrutando cada instante. Quiero conocerte de verdad: en tus días alegres y también cuando andes molesta o irritada, porque me gusta todo de ti jeje. Me hace demasiada ilusión seguir compartiendo momentos a tu lado. ♡'
         );
       });
     }
