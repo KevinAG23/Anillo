@@ -27,8 +27,8 @@ class RomanticAtmosphereManager {
     this.resize();
     window.addEventListener('resize', () => this.resize(), { passive: true });
 
-    // Populate a rich field of floating hearts and romantic elements (90-150 particles)
-    const count = window.innerWidth < 600 ? 95 : 140;
+    // Optimized density for mobile performance without dropped frames (38 on mobile, 85 on desktop)
+    const count = window.innerWidth < 600 ? 38 : 85;
     for (let i = 0; i < count; i++) {
       this.particles.push(this.createParticle(false));
     }
@@ -54,26 +54,25 @@ class RomanticAtmosphereManager {
     let lastSpawnTime = 0;
     const spawnTouchHearts = (x, y) => {
       const now = performance.now();
-      if (now - lastSpawnTime < 35) return; // throttle for buttery 60fps
+      const throttleMs = window.innerWidth < 600 ? 65 : 35;
+      if (now - lastSpawnTime < throttleMs) return; // throttle for buttery 60fps
       lastSpawnTime = now;
 
-      // Spawn 2-3 mini hearts / sparkles at touch point
-      for (let i = 0; i < 2; i++) {
-        this.touchParticles.push({
-          x: x + (Math.random() - 0.5) * 16,
-          y: y + (Math.random() - 0.5) * 16,
-          size: 8 + Math.random() * 12,
-          speedY: -1.2 - Math.random() * 1.5,
-          speedX: (Math.random() - 0.5) * 1.8,
-          opacity: 0.95,
-          rotation: (Math.random() - 0.5) * 0.8,
-          rotationSpeed: (Math.random() - 0.5) * 0.05,
-          color: Math.random() > 0.4 ? 'rgba(255, 92, 154, ' : 'rgba(255, 182, 193, ',
-          type: Math.random() > 0.3 ? 'heart' : 'sparkle',
-          life: 1.0,
-          decay: 0.018 + Math.random() * 0.015
-        });
-      }
+      // Spawn 1 cute mini heart or sparkle at touch point
+      this.touchParticles.push({
+        x: x + (Math.random() - 0.5) * 12,
+        y: y + (Math.random() - 0.5) * 12,
+        size: 8 + Math.random() * 10,
+        speedY: -1.2 - Math.random() * 1.2,
+        speedX: (Math.random() - 0.5) * 1.5,
+        opacity: 0.95,
+        rotation: (Math.random() - 0.5) * 0.8,
+        rotationSpeed: (Math.random() - 0.5) * 0.05,
+        color: Math.random() > 0.4 ? 'rgba(255, 92, 154, ' : 'rgba(255, 182, 193, ',
+        type: Math.random() > 0.3 ? 'heart' : 'sparkle',
+        life: 1.0,
+        decay: 0.022 + Math.random() * 0.015
+      });
     };
 
     window.addEventListener('pointermove', (e) => {

@@ -308,17 +308,14 @@ class FibonacciSphereManager {
       const factor = this.perspective / (this.perspective - pz);
       const scale = Math.max(0.42, Math.min(1.28, factor));
 
-      // 5. Depth attenuation
+      // 5. Depth attenuation & stacking
       const normZ = (pz + this.sphereRadius) / (2 * this.sphereRadius); // 0 (back) to 1 (front)
-      const opacity = 0.35 + 0.65 * Math.pow(normZ, 1.4);
+      const opacity = 0.40 + 0.60 * Math.pow(normZ, 1.3);
       const zIndex = Math.round(normZ * 1000);
-      const blur = (1 - normZ) * 2.2;
-      const brightness = 0.7 + 0.3 * normZ;
 
-      // Hardware accelerated transform
-      card.el.style.transform = `translate3d(${px}px, ${py}px, ${pz}px) scale(${scale.toFixed(3)})`;
+      // GPU compositor only (NO expensive CSS filter re-rasterization per frame!)
+      card.el.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, ${pz.toFixed(1)}px) scale(${scale.toFixed(3)})`;
       card.el.style.opacity = opacity.toFixed(2);
-      card.el.style.filter = `blur(${blur.toFixed(1)}px) brightness(${brightness.toFixed(2)})`;
       card.el.style.zIndex = zIndex;
       card.el.style.pointerEvents = normZ > 0.4 ? 'auto' : 'none';
     }

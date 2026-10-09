@@ -18,10 +18,12 @@ class RomanticNarrativeController {
     // Declaration choices
     this.btnChoiceYes = document.getElementById('btn-choice-yes');
     this.btnChoicePace = document.getElementById('btn-choice-pace');
+    this.declarationPromptBlock = document.getElementById('declaration-prompt-block');
     this.celebrationOutcome = document.getElementById('celebration-outcome');
     this.celebrationTitle = document.getElementById('celebration-title');
     this.celebrationText = document.getElementById('celebration-text');
     this.optionsGrid = document.querySelector('.declaration-options-grid');
+    this.dodgeLockoutUntil = 0;
 
     // Replay controls
     this.btnReplayRing = document.getElementById('btn-replay-ring');
@@ -90,7 +92,16 @@ class RomanticNarrativeController {
 
     // 4. "Sí, me encantaría 💕" (The only true selectable choice!)
     if (this.btnChoiceYes) {
-      this.btnChoiceYes.addEventListener('click', () => {
+      this.btnChoiceYes.addEventListener('click', (e) => {
+        // Prevent accidental triggers when escaping button dodges!
+        if (Date.now() < this.dodgeLockoutUntil) {
+          if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+          return;
+        }
+
         this.handleChoice(
           'yes',
           '¡No te imaginas la ilusión que me da! 💖',
@@ -134,24 +145,51 @@ class RomanticNarrativeController {
         e.stopPropagation();
       }
 
+      // Lock out "Sí, me encantaría" for 650ms so accidental touch release or synthetic click NEVER triggers it
+      this.dodgeLockoutUntil = Date.now() + 650;
+      if (this.btnChoiceYes) {
+        this.btnChoiceYes.style.pointerEvents = 'none';
+        setTimeout(() => {
+          if (this.btnChoiceYes) this.btnChoiceYes.style.pointerEvents = 'auto';
+        }, 550);
+      }
+
       this.escapeCount++;
 
       // Change button text to playful teasing phrases
       const phraseIndex = Math.min(this.escapeCount, this.escapePhrases.length - 1);
       this.btnChoicePace.innerHTML = `<span>${this.escapePhrases[phraseIndex]}</span>`;
 
-      // Calculate random playful displacement
-      const maxDistX = window.innerWidth < 480 ? 90 : 130;
-      const maxDistY = window.innerWidth < 480 ? 70 : 100;
-      const randomX = (Math.random() - 0.5) * (maxDistX * 2);
-      const randomY = (Math.random() - 0.5) * (maxDistY * 2);
+      // Safe displacement: ALWAYS dodge away from btnChoiceYes (right / down)!
+      // Clamp displacement so it never leaves the card or crosses 'Sí'
+      const isMobile = window.innerWidth < 480;
+      const step = this.escapeCount % 4;
+      let posX = 0;
+      let posY = 0;
 
-      this.btnChoicePace.style.transition = 'transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)';
-      this.btnChoicePace.style.transform = `translate(${randomX.toFixed(0)}px, ${randomY.toFixed(0)}px)`;
+      if (isMobile) {
+        // On mobile: dodge strictly downwards and slightly to the right, never left!
+        switch (step) {
+          case 1: posX = 35; posY = 45; break;
+          case 2: posX = 10; posY = 65; break;
+          case 3: posX = 30; posY = 80; break;
+          default: posX = 15; posY = 50; break;
+        }
+      } else {
+        switch (step) {
+          case 1: posX = 80; posY = 35; break;
+          case 2: posX = 105; posY = -15; break;
+          case 3: posX = 70; posY = 55; break;
+          default: posX = 60; posY = 20; break;
+        }
+      }
+
+      this.btnChoicePace.style.transition = 'transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      this.btnChoicePace.style.transform = `translate(${posX}px, ${posY}px)`;
 
       // Make the "Sí, me encantaría" button grow slightly bigger and pulse more brightly
       if (this.btnChoiceYes) {
-        const growthScale = Math.min(1.35, 1 + this.escapeCount * 0.05);
+        const growthScale = Math.min(1.2, 1 + this.escapeCount * 0.04);
         this.btnChoiceYes.style.transform = `scale(${growthScale.toFixed(2)})`;
       }
     };
@@ -164,8 +202,9 @@ class RomanticNarrativeController {
   }
 
   handleChoice(type, title, text) {
-    if (this.optionsGrid) {
-      this.optionsGrid.style.display = 'none';
+    // Smoothly swap out the prompt block so the card doesn't overflow the mobile screen!
+    if (this.declarationPromptBlock) {
+      this.declarationPromptBlock.style.display = 'none';
     }
 
     if (this.celebrationTitle) this.celebrationTitle.textContent = title;
@@ -179,6 +218,10 @@ class RomanticNarrativeController {
   }
 
   resetChoiceButtons() {
+    // Restore prompt block
+    if (this.declarationPromptBlock) {
+      this.declarationPromptBlock.style.display = 'block';
+    }
     if (this.optionsGrid) {
       this.optionsGrid.style.display = 'flex';
     }
@@ -188,12 +231,14 @@ class RomanticNarrativeController {
 
     // Reset escaping button position, text, and scaling
     this.escapeCount = 0;
+    this.dodgeLockoutUntil = 0;
     if (this.btnChoicePace) {
       this.btnChoicePace.style.transform = 'translate(0, 0)';
       this.btnChoicePace.innerHTML = `<span>Sigamos conociéndonos 🌷</span>`;
     }
     if (this.btnChoiceYes) {
       this.btnChoiceYes.style.transform = 'scale(1)';
+      this.btnChoiceYes.style.pointerEvents = 'auto';
     }
   }
 

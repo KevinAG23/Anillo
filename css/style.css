@@ -151,16 +151,24 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.85s var(--transition-smooth), transform 0.85s var(--transition-smooth), visibility 0.85s;
-  padding: 24px 20px;
-  padding-top: calc(24px + env(safe-area-inset-top));
-  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  padding: 20px 16px 40px;
+  padding-top: calc(16px + env(safe-area-inset-top));
+  padding-bottom: calc(30px + env(safe-area-inset-bottom));
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+/* Center cards vertically when they fit, but preserve top/bottom scrolling when tall */
+.welcome-card,
+.gift-box-card,
+.ring-presentation-card,
+.declaration-card {
+  margin: auto 0;
 }
 
 .scene.active {
@@ -543,20 +551,19 @@ body {
   left: -65px;
   width: 130px;
   height: 170px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.94);
   border: 2px solid rgba(255, 143, 184, 0.55);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 12px 28px rgba(232, 75, 136, 0.24);
+  box-shadow: 0 10px 24px rgba(232, 75, 136, 0.22);
   display: flex;
   flex-direction: column;
   cursor: pointer;
   pointer-events: auto;
   transform-origin: center center;
-  will-change: transform, opacity, filter;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 @media (min-width: 768px) {
@@ -1583,17 +1590,13 @@ body {
 .celebration-outcome {
   display: none;
   width: 100%;
-  margin-top: 20px;
-  padding: 26px 20px;
-  background: radial-gradient(circle, #FFF4F9 0%, #FFE5F0 100%);
-  border: 2px solid rgba(255, 143, 184, 0.45);
-  border-radius: 30px;
-  box-shadow: 0 14px 36px rgba(232, 75, 136, 0.25);
+  margin-top: 0;
+  padding: 6px 4px 4px;
   animation: outcomeFadeIn 0.8s var(--transition-spring) forwards;
 }
 
 @keyframes outcomeFadeIn {
-  0% { opacity: 0; transform: scale(0.9) translateY(18px); }
+  0% { opacity: 0; transform: scale(0.92) translateY(12px); }
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
@@ -1601,153 +1604,235 @@ body {
   display: block;
 }
 
+.celebration-hk-badge {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFF5F9 0%, #FFE2ED 100%);
+  border: 2px solid rgba(255, 143, 184, 0.45);
+  box-shadow: 0 8px 22px rgba(255, 92, 154, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.celebration-hk-icon {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(255, 92, 154, 0.25));
+  animation: hkBadgeBounce 3s ease-in-out infinite alternate;
+}
+
+@keyframes hkBadgeBounce {
+  0% { transform: translateY(0) scale(0.96); }
+  100% { transform: translateY(-4px) scale(1.04); }
+}
+
 .celebration-title {
   font-family: var(--font-serif);
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   color: var(--pink-deep);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  line-height: 1.3;
 }
 
 .celebration-text {
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   color: var(--text-primary);
-  line-height: 1.65;
-  margin-bottom: 20px;
+  line-height: 1.55;
+  margin-bottom: 16px;
+  padding: 0 4px;
 }
 
 .celebration-actions {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   gap: 10px;
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  .celebration-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 /* ==========================================================================
    MOBILE SCREEN OPTIMIZATIONS (< 480px & < 380px)
    ========================================================================== */
 @media (max-width: 480px) {
+  .welcome-card {
+    padding: 24px 18px;
+  }
+
   .welcome-hk-container {
-    width: 140px;
-    height: 140px;
+    width: 125px;
+    height: 125px;
+    margin-bottom: 14px;
   }
 
   .welcome-hk-halo {
-    width: 150px;
-    height: 150px;
+    width: 135px;
+    height: 135px;
   }
 
   .romantic-title {
-    font-size: 1.55rem;
-    line-height: 1.3;
+    font-size: 1.35rem;
+    line-height: 1.25;
+    margin-bottom: 10px;
   }
 
   .romantic-subtitle {
-    font-size: 0.95rem;
-    padding: 0 8px;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    padding: 0 4px;
+    margin-bottom: 18px;
   }
 
   /* Estuche Jewelry Case on Mobile */
   .gift-box-3d-wrapper {
-    width: 270px;
-    height: 250px;
-  }
-
-  .gift-box-stage,
-  .estuche-stage {
-    width: 195px;
-    height: 180px;
-  }
-
-  .estuche-base {
-    width: 190px;
-    height: 112px;
-  }
-
-  .estuche-lid {
-    width: 194px;
-    height: 100px;
-  }
-
-  .box-bow {
-    transform: translateX(-50%) scale(0.9);
-  }
-
-  .gift-hk-companion {
-    width: 76px;
-    height: 76px;
-    right: 0px;
-    top: 5px;
-  }
-
-  /* Ring Showcase on Mobile */
-  .ring-stage {
-    width: 260px;
-    height: 260px;
-    margin-bottom: 12px;
-  }
-
-  .ring-pod {
-    width: 220px;
+    width: 250px;
     height: 220px;
-  }
-
-  .ring-display-img {
-    width: 86%;
-    height: 86%;
-  }
-
-  .ring-prose-container {
-    padding: 18px 16px;
-    border-radius: 24px;
-  }
-
-  .ring-main-title {
-    font-size: 1.55rem;
-  }
-
-  .ring-prose-p {
-    font-size: 0.96rem;
-    line-height: 1.6;
-    margin-bottom: 12px;
-  }
-
-  .btn-primary,
-  .btn-choice {
-    padding: 14px 22px;
-    font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 380px) {
-  .gift-box-3d-wrapper {
-    width: 240px;
-    height: 230px;
+    margin: 4px 0 16px;
   }
 
   .gift-box-stage,
   .estuche-stage {
-    width: 175px;
+    width: 180px;
     height: 165px;
   }
 
   .estuche-base {
-    width: 170px;
-    height: 100px;
+    width: 175px;
+    height: 104px;
   }
 
   .estuche-lid {
-    width: 174px;
-    height: 90px;
+    width: 178px;
+    height: 94px;
+  }
+
+  .box-bow {
+    transform: translateX(-50%) scale(0.85);
+  }
+
+  .gift-hk-companion {
+    width: 68px;
+    height: 68px;
+    right: 0px;
+    top: 5px;
+  }
+
+  /* Ring Showcase on Mobile - Compact & 100% Fits Screen */
+  .ring-presentation-card {
+    padding: 0 4px;
   }
 
   .ring-stage {
-    width: 230px;
-    height: 230px;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 8px;
   }
 
   .ring-pod {
-    width: 195px;
-    height: 195px;
+    width: 175px;
+    height: 175px;
+  }
+
+  .ring-display-img {
+    width: 88%;
+    height: 88%;
+  }
+
+  .ring-view-toggle {
+    margin-bottom: 10px;
+    padding: 5px 12px;
+    font-size: 0.78rem;
+  }
+
+  .ring-prose-container {
+    padding: 16px 14px;
+    margin-bottom: 12px;
+    border-radius: 22px;
+  }
+
+  .ring-main-title {
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+  }
+
+  .ring-prose-p {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin-bottom: 6px;
+  }
+
+  #btn-to-declaration {
+    margin-bottom: 12px;
+  }
+
+  /* Declaration Card on Mobile */
+  .declaration-card {
+    padding: 22px 16px;
+    border-radius: 28px;
+    max-width: 95vw;
+  }
+
+  .declaration-hk-wrap {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 8px;
+  }
+
+  .declaration-hk-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .declaration-options-grid {
+    position: relative;
+    min-height: 65px;
+    gap: 8px;
+  }
+
+  .btn-primary,
+  .btn-choice {
+    padding: 13px 20px;
+    font-size: 0.92rem;
+  }
+
+  .btn-choice-pace {
+    font-size: 0.88rem;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ring-stage {
+    width: 180px;
+    height: 180px;
+  }
+
+  .ring-pod {
+    width: 155px;
+    height: 155px;
+  }
+
+  .gift-box-stage,
+  .estuche-stage {
+    width: 160px;
+    height: 150px;
+  }
+
+  .declaration-card {
+    padding: 18px 12px;
+  }
+
+  .celebration-title {
+    font-size: 1.25rem;
   }
 }
 
