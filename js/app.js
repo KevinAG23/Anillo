@@ -99,11 +99,14 @@ class RomanticNarrativeController {
       });
     }
 
-    // 5. Navigation: Volver a ver el anillo
+    // 5. Navigation: Volver a abrir el estuche y ver el anillo (resetea para revivir la animación)
     if (this.btnReplayRing) {
       this.btnReplayRing.addEventListener('click', () => {
+        if (window.goldenRingManager) {
+          window.goldenRingManager.resetBox();
+        }
         this.resetChoiceButtons();
-        this.goToScene('scene-ring');
+        this.goToScene('scene-gift-box');
       });
     }
 

@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- Master Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2.5">
+  <link rel="stylesheet" href="css/style.css?v=3.0">
 </head>
 <body>
 
@@ -45,7 +45,7 @@
           <span class="orbit-heart orbit-h1">💖</span>
           <span class="orbit-heart orbit-h2">✨</span>
           <span class="orbit-heart orbit-h3">🌸</span>
-          <img src="Imagenes/Hello_Kitty.webp" alt="Hello Kitty saludando con ternura" class="welcome-hk-img" />
+          <img src="Imagenes/hello_kitty_transparent.png" alt="Hello Kitty saludando con ternura" class="welcome-hk-img" />
         </div>
 
         <h1 class="romantic-title">Hay algo muy especial que quiero mostrarte... 🎀</h1>
@@ -130,43 +130,52 @@
           Porque hay personas que llegan a nuestra vida y, sin darse cuenta, empiezan a ocupar un lugar muy especial.
         </p>
 
-        <!-- 3D Luxury Gift Box Presentation Stage with Hello Kitty Companion -->
+        <!-- 3D Luxury Jewelry Case (Estuche de Terciopelo Rosa de Alta Joyería) -->
         <div class="gift-box-3d-wrapper">
           <!-- Background Rotating Golden Aura -->
           <div class="gift-box-halo"></div>
           <div class="gift-box-sunburst"></div>
 
-          <!-- Hello Kitty Peek Companion -->
+          <!-- Hello Kitty Companion (Con mezcla perfecta sin recuadro blanco) -->
           <div class="gift-hk-companion">
-            <img src="Imagenes/Hello_Kitty.webp" alt="Hello Kitty con ilusión" class="gift-hk-img" />
+            <img src="Imagenes/hello_kitty_transparent.png" alt="Hello Kitty con ilusión" class="gift-hk-img" />
           </div>
 
           <!-- Ground Soft Shadow -->
           <div class="box-shadow-ground"></div>
 
-          <!-- Main 3D Gift Box Stage -->
-          <div id="gift-box-stage" class="gift-box-stage" title="Toca para abrir tu sorpresa">
-            <!-- Box Body with Quilted Satin Finish -->
-            <div class="box-body">
-              <div class="box-body-shine"></div>
-              <div class="box-ribbon-v"></div>
-              <div class="box-ribbon-h"></div>
-              <div class="box-heart-charm">♡</div>
+          <!-- Realistic Velvet Jewel Case (Estuche de Alta Joyería) -->
+          <div id="gift-box-stage" class="gift-box-stage estuche-stage" title="Toca para abrir tu estuche de regalo">
+            <!-- Estuche Bottom Base with Velvet Texture & Golden Rim -->
+            <div class="estuche-base">
+              <div class="estuche-rim-gold"></div>
+              <div class="estuche-cushion-interior">
+                <div class="estuche-ring-slot"></div>
+              </div>
+              <div class="estuche-clasp">
+                <div class="clasp-metal">
+                  <span class="clasp-gem">✨</span>
+                </div>
+              </div>
             </div>
 
-            <!-- Box 3D Lid -->
-            <div class="box-lid">
-              <div class="box-lid-shine"></div>
-              <div class="box-lid-ribbon"></div>
-              <!-- Grand Satin 3D Ribbon Bow with Golden Brooch -->
-              <div class="box-bow">
-                <div class="bow-loop bow-loop-left"></div>
-                <div class="bow-loop bow-loop-right"></div>
-                <div class="bow-tail bow-tail-left"></div>
-                <div class="bow-tail bow-tail-right"></div>
-                <div class="bow-center-brooch">
-                  <span class="brooch-heart">💖</span>
+            <!-- Estuche Velvet Hinged Lid with Gold Ribbon & Bow -->
+            <div class="estuche-lid">
+              <div class="estuche-lid-outer">
+                <div class="estuche-lid-ribbon"></div>
+                <!-- 3D Ribbon Bow with Hello Kitty Golden Brooch -->
+                <div class="box-bow">
+                  <div class="bow-loop bow-loop-left"></div>
+                  <div class="bow-loop bow-loop-right"></div>
+                  <div class="bow-tail bow-tail-left"></div>
+                  <div class="bow-tail bow-tail-right"></div>
+                  <div class="bow-center-brooch">
+                    <span class="brooch-heart">🎀</span>
+                  </div>
                 </div>
+              </div>
+              <div class="estuche-lid-interior">
+                <div class="estuche-silk-brand">Para Ti ♡</div>
               </div>
             </div>
 
@@ -184,7 +193,7 @@
 
         <button id="btn-open-box" class="btn-primary btn-pulse-action" aria-label="Abrir mi regalo">
           <span class="btn-shine"></span>
-          <span>Abrir mi regalo 🎀</span>
+          <span>Abrir mi estuche 🎀</span>
         </button>
       </div>
     </section>
@@ -213,8 +222,8 @@
             <div class="sparkle-flare flare-3"></div>
             <div class="sparkle-flare flare-4"></div>
 
-            <!-- Ring Image (Golden ring with heart diamonds from repository) -->
-            <img id="ring-display-img" src="Imagenes/images (2).jpg" alt="Anillo dorado con diamantes en forma de corazón" class="ring-display-img" />
+            <!-- Ring Image (Transparent PNG with NO white square box, perfectly circular cutout!) -->
+            <img id="ring-display-img" src="Imagenes/anillo_transparente.png" alt="Anillo dorado con diamantes en forma de corazón" class="ring-display-img" />
 
             <!-- Alternate Luxury Velvet Jewel Box View -->
             <img id="ring-velvet-img" src="Imagenes/jfTL5id-Kv1iflwVJsnK2m8M2zVl1RxO6erm_Hs-3YP20LUxsVdhqR93-TwxUSTP5z_KplpsWr8F7xuMj-GLZzp2J0Hz7Oav1Ivml0dWNKSYv0BPodzKCYBT6ILSV421UkjDp3nO9LjlT_-Nqckuj1MzCC2DGJjc0nEhp9BaJEsizCF_ssRAqBg83IZ4qga3.jpg" alt="Anillo dorado en estuche de terciopelo rosa con rosas" class="ring-velvet-img" />
@@ -285,8 +294,8 @@
           <p id="celebration-text" class="celebration-text">Mensaje...</p>
 
           <div class="celebration-actions">
-            <button id="btn-replay-ring" class="btn-secondary">Volver a ver el anillo 💍</button>
-            <button id="btn-replay-sphere" class="btn-secondary">Explorar las estrellas 🎀</button>
+            <button id="btn-replay-ring" class="btn-secondary">Volver a abrir el regalo 💍</button>
+            <button id="btn-replay-sphere" class="btn-secondary">Volver a las estrellas 🎀</button>
           </div>
         </div>
       </div>
@@ -295,10 +304,10 @@
   </main>
 
   <!-- JavaScript Modules with Cache-Busting Versioning -->
-  <script src="js/vendor/confetti.min.js?v=2.5"></script>
-  <script src="js/particles.js?v=2.5"></script>
-  <script src="js/sphere3d.js?v=2.5"></script>
-  <script src="js/ring.js?v=2.5"></script>
-  <script src="js/app.js?v=2.5"></script>
+  <script src="js/vendor/confetti.min.js?v=3.0"></script>
+  <script src="js/particles.js?v=3.0"></script>
+  <script src="js/sphere3d.js?v=3.0"></script>
+  <script src="js/ring.js?v=3.0"></script>
+  <script src="js/app.js?v=3.0"></script>
 </body>
 </html>

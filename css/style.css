@@ -906,24 +906,25 @@ body {
   100% { transform: scale(1.15); opacity: 0.8; }
 }
 
-/* 3D Gift Box Stage with Levitation & Jiggle */
-.gift-box-stage {
+/* 3D Realistic Velvet Jewel Case (Estuche de Alta Joyería) */
+.gift-box-stage,
+.estuche-stage {
   position: relative;
-  width: 190px;
-  height: 190px;
+  width: 220px;
+  height: 200px;
   transform-style: preserve-3d;
-  animation: boxFloatLevitate 4.5s ease-in-out infinite alternate, boxJiggle 6s ease-in-out infinite;
+  animation: estucheFloat 4.5s ease-in-out infinite alternate, estucheJiggle 6s ease-in-out infinite;
   transition: transform 1.2s var(--transition-smooth);
   cursor: pointer;
   z-index: 5;
 }
 
-@keyframes boxFloatLevitate {
-  0% { transform: translateY(0) rotateY(-8deg); }
-  100% { transform: translateY(-12px) rotateY(8deg); }
+@keyframes estucheFloat {
+  0% { transform: translateY(0) rotateY(-6deg) rotateX(4deg); }
+  100% { transform: translateY(-12px) rotateY(6deg) rotateX(0deg); }
 }
 
-@keyframes boxJiggle {
+@keyframes estucheJiggle {
   0%, 82%, 100% { transform: translateY(0); }
   85% { transform: translateY(-6px) rotateZ(-3deg); }
   88% { transform: translateY(-6px) rotateZ(3deg); }
@@ -931,102 +932,155 @@ body {
   94% { transform: translateY(-2px) rotateZ(1deg); }
 }
 
-/* Box Body: Luxurious Quilted Satin Finish with Golden Bevels */
-.box-body {
+/* Estuche Base (Lower Half of the Clamshell Case) */
+.estuche-base {
   position: absolute;
-  bottom: 0;
-  width: 190px;
-  height: 140px;
-  background: linear-gradient(145deg, #FF94BA 0%, #FF5C9A 40%, #E83E7D 80%, #C72562 100%);
-  border-radius: 22px;
-  box-shadow: 0 24px 50px rgba(232, 75, 136, 0.45), 0 0 0 2.5px rgba(255, 255, 255, 0.5) inset, 0 0 20px rgba(255, 182, 218, 0.35);
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 212px;
+  height: 124px;
+  border-radius: 36px 36px 44px 44px;
+  background: radial-gradient(ellipse at 50% 20%, #F87DA8 0%, #D8316E 42%, #9E1045 78%, #6B062C 100%);
+  box-shadow: 0 24px 50px rgba(107, 6, 44, 0.45), 0 8px 18px rgba(0, 0, 0, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.5), inset 0 -4px 8px rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 200, 225, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
 }
 
-.box-body-shine {
+/* Metallic Golden Beveled Rim between Lid and Base */
+.estuche-rim-gold {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 100%);
-  pointer-events: none;
+  left: 6px;
+  right: 6px;
+  height: 10px;
+  background: linear-gradient(90deg, #A67C1E 0%, #FFF2A8 25%, #E5BE48 50%, #FFF2A8 75%, #8C6514 100%);
+  border-radius: 12px 12px 6px 6px;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.75), inset 0 1px 1px #fff;
+  z-index: 4;
 }
 
-/* Satin Metallic Gold Ribbon Wraps */
-.box-ribbon-v {
+/* Luxurious Silk-Velvet Interior Ring Cushion */
+.estuche-cushion-interior {
   position: absolute;
-  top: 0;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  border-radius: 26px 26px 34px 34px;
+  background: radial-gradient(ellipse at 50% 35%, #FFF0F6 0%, #F5B8D2 45%, #D46995 85%, #9E2657 100%);
+  box-shadow: inset 0 8px 18px rgba(117, 8, 49, 0.45), inset 0 -3px 8px rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center Indented Ring Slot with Inner Shadow and Golden Glimmer */
+.estuche-ring-slot {
+  width: 66px;
+  height: 16px;
+  border-radius: 14px;
+  background: radial-gradient(ellipse, #4A041D 0%, #20000B 100%);
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.75), 0 1px 3px rgba(255, 255, 255, 0.4);
+  position: relative;
+}
+
+.estuche-ring-slot::after {
+  content: '';
+  position: absolute;
+  top: 2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 36px;
-  height: 100%;
-  background: var(--gold-gradient);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+  width: 22px;
+  height: 4px;
+  background: rgba(255, 235, 150, 0.75);
+  border-radius: 50%;
+  filter: blur(1px);
 }
 
-.box-ribbon-h {
+/* Front Clasp / Lock */
+.estuche-clasp {
   position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 36px;
-  background: var(--gold-gradient);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
 }
 
-.box-heart-charm {
+.clasp-metal {
+  width: 34px;
+  height: 20px;
+  border-radius: 6px 6px 12px 12px;
+  background: linear-gradient(135deg, #FFF6BD 0%, #E6C252 40%, #B8860B 80%, #7A5706 100%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 2px #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clasp-gem {
+  font-size: 0.75rem;
+  filter: drop-shadow(0 0 4px #fff);
+}
+
+/* Estuche Hinged Upper Lid */
+.estuche-lid {
   position: absolute;
-  z-index: 3;
-  color: #FFF2CC;
-  font-size: 1.4rem;
-  filter: drop-shadow(0 2px 6px rgba(153, 101, 21, 0.6));
-  animation: charmPulse 2.5s ease-in-out infinite alternate;
-}
-
-@keyframes charmPulse {
-  0% { transform: scale(0.9); }
-  100% { transform: scale(1.15); }
-}
-
-/* 3D Overhanging Box Lid */
-.box-lid {
-  position: absolute;
-  top: 32px;
-  left: -8px;
-  width: 206px;
-  height: 52px;
-  background: linear-gradient(145deg, #FFB8D2 0%, #FF78A5 50%, #FF4D88 100%);
-  border-radius: 18px;
-  box-shadow: 0 10px 28px rgba(232, 75, 136, 0.4), 0 0 0 2.5px rgba(255, 255, 255, 0.65) inset;
-  z-index: 6;
-  transition: transform 1.2s var(--transition-spring), opacity 1s ease;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 218px;
+  height: 112px;
   transform-origin: top center;
+  transition: transform 1.25s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.8s ease;
+  z-index: 7;
+  transform-style: preserve-3d;
 }
 
-.box-lid-shine {
-  position: absolute;
-  top: 0;
-  left: 0;
+.estuche-lid-outer {
   width: 100%;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+  height: 100%;
+  border-radius: 44px 44px 32px 32px;
+  background: radial-gradient(ellipse at 50% 25%, #FF8CB8 0%, #E83E7D 45%, #B31956 80%, #7D0937 100%);
+  box-shadow: 0 18px 40px rgba(125, 9, 55, 0.45), inset 0 3px 6px rgba(255, 255, 255, 0.55), inset 0 -4px 8px rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 214, 231, 0.45);
+  position: relative;
 }
 
-.box-lid-ribbon {
+.estuche-lid-ribbon {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 36px;
+  width: 34px;
   height: 100%;
-  background: var(--gold-gradient);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.55);
+  background: linear-gradient(90deg, #A67C1E 0%, #FFF2A8 30%, #E5BE48 50%, #FFF2A8 70%, #8C6514 100%);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5), inset 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.estuche-lid-interior {
+  position: absolute;
+  inset: 0;
+  border-radius: 44px;
+  background: radial-gradient(circle, #FFF9FC 0%, #FFE8F2 70%, #F5C4D9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotateX(180deg);
+  backface-visibility: hidden;
+  box-shadow: inset 0 4px 12px rgba(184, 53, 98, 0.3);
+}
+
+.estuche-silk-brand {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 /* Grand Satin 3D Ribbon Bow */
@@ -1041,7 +1095,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: transform 0.9s ease, opacity 0.9s ease;
-  z-index: 7;
+  z-index: 8;
 }
 
 .bow-loop {
@@ -1092,7 +1146,7 @@ body {
   border-radius: 50%;
   background: radial-gradient(circle, #FFFDE8 0%, #FFD700 60%, #B8860B 100%);
   box-shadow: 0 4px 16px rgba(212, 175, 55, 0.75), 0 0 8px #ffffff inset;
-  z-index: 8;
+  z-index: 9;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1154,23 +1208,27 @@ body {
 }
 
 /* Opening sequence classes */
-.gift-box-stage.opening {
+.gift-box-stage.opening,
+.estuche-stage.opening {
   animation: none;
 }
 
-.gift-box-stage.opening .box-bow {
-  transform: translateX(-50%) translateY(-60px) scale(0.5);
+.gift-box-stage.opening .box-bow,
+.estuche-stage.opening .box-bow {
+  transform: translateX(-50%) translateY(-100px) scale(0.4);
   opacity: 0;
 }
 
-.gift-box-stage.opening .box-lid {
-  transform: translateY(-110px) rotateX(-50deg) rotateZ(16deg);
-  opacity: 0;
+.gift-box-stage.opening .estuche-lid,
+.estuche-stage.opening .estuche-lid {
+  transform: translateX(-50%) translateY(-65px) rotateX(-120deg) scale(0.9);
+  opacity: 0.15;
 }
 
-.gift-box-stage.opening .box-light-burst {
+.gift-box-stage.opening .box-light-burst,
+.estuche-stage.opening .box-light-burst {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1.8);
+  transform: translate(-50%, -50%) scale(2.2);
 }
 
 /* ==========================================================================
@@ -1238,15 +1296,19 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-/* Ring Pod: Frosted Glass Floating Jewel Frame */
+/* Ring Pod: Luxury Circular Velvet & Gold Showcase Pedestal */
 .ring-pod {
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: min(260px, 75vw);
+  height: min(260px, 75vw);
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #FFF3F8 60%, #FFE2ED 100%);
-  border: 3.5px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 18px 45px rgba(212, 175, 55, 0.32), 0 0 28px rgba(255, 143, 184, 0.3);
+  background: radial-gradient(circle at 40% 35%, #FFFFFF 0%, #FFF3F7 35%, #FFDCE9 70%, #F5B0CC 95%, #DE78A0 100%);
+  border: 4px solid #F3DA8E;
+  box-shadow: 0 20px 50px rgba(139, 17, 62, 0.32), 
+              0 0 0 5px rgba(255, 255, 255, 0.85),
+              0 0 24px rgba(212, 175, 55, 0.45),
+              inset 0 6px 18px rgba(212, 175, 55, 0.25),
+              inset 0 -6px 16px rgba(155, 15, 67, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1275,14 +1337,15 @@ body {
 
 .ring-pod-border {
   position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
   border-radius: 50%;
-  border: 1.5px dashed var(--gold);
+  border: 1.8px dashed #D4AF37;
   pointer-events: none;
-  animation: borderSpin 40s linear infinite;
+  animation: borderSpin 36s linear infinite;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
 }
 
 @keyframes borderSpin {
@@ -1291,10 +1354,10 @@ body {
 }
 
 .ring-display-img {
-  width: 82%;
-  height: 82%;
+  width: 86%;
+  height: 86%;
   object-fit: contain;
-  filter: drop-shadow(0 14px 24px rgba(105, 54, 78, 0.28));
+  filter: drop-shadow(0 14px 22px rgba(105, 30, 60, 0.35)) drop-shadow(0 0 10px rgba(255, 215, 0, 0.4));
   transition: transform 0.3s ease, opacity 0.5s ease;
   user-select: none;
   pointer-events: none;
@@ -1557,6 +1620,135 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
+}
+
+/* ==========================================================================
+   MOBILE SCREEN OPTIMIZATIONS (< 480px & < 380px)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .welcome-hk-container {
+    width: 140px;
+    height: 140px;
+  }
+
+  .welcome-hk-halo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .romantic-title {
+    font-size: 1.55rem;
+    line-height: 1.3;
+  }
+
+  .romantic-subtitle {
+    font-size: 0.95rem;
+    padding: 0 8px;
+  }
+
+  /* Estuche Jewelry Case on Mobile */
+  .gift-box-3d-wrapper {
+    width: 270px;
+    height: 250px;
+  }
+
+  .gift-box-stage,
+  .estuche-stage {
+    width: 195px;
+    height: 180px;
+  }
+
+  .estuche-base {
+    width: 190px;
+    height: 112px;
+  }
+
+  .estuche-lid {
+    width: 194px;
+    height: 100px;
+  }
+
+  .box-bow {
+    transform: translateX(-50%) scale(0.9);
+  }
+
+  .gift-hk-companion {
+    width: 76px;
+    height: 76px;
+    right: 0px;
+    top: 5px;
+  }
+
+  /* Ring Showcase on Mobile */
+  .ring-stage {
+    width: 260px;
+    height: 260px;
+    margin-bottom: 12px;
+  }
+
+  .ring-pod {
+    width: 220px;
+    height: 220px;
+  }
+
+  .ring-display-img {
+    width: 86%;
+    height: 86%;
+  }
+
+  .ring-prose-container {
+    padding: 18px 16px;
+    border-radius: 24px;
+  }
+
+  .ring-main-title {
+    font-size: 1.55rem;
+  }
+
+  .ring-prose-p {
+    font-size: 0.96rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .btn-primary,
+  .btn-choice {
+    padding: 14px 22px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .gift-box-3d-wrapper {
+    width: 240px;
+    height: 230px;
+  }
+
+  .gift-box-stage,
+  .estuche-stage {
+    width: 175px;
+    height: 165px;
+  }
+
+  .estuche-base {
+    width: 170px;
+    height: 100px;
+  }
+
+  .estuche-lid {
+    width: 174px;
+    height: 90px;
+  }
+
+  .ring-stage {
+    width: 230px;
+    height: 230px;
+  }
+
+  .ring-pod {
+    width: 195px;
+    height: 195px;
+  }
 }
 
 /* ==========================================================================
