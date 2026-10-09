@@ -4,6 +4,17 @@
  * (100% focused on romantic visuals and rich animations, zero audio)
  */
 
+// ============================================================================
+// CONFIGURACIÓN PARA RECIBIR LA RESPUESTA
+// Si quieres que el botón de WhatsApp te envíe el mensaje directamente a tu número,
+// escribe aquí tu número con código de país (ejemplo Ecuador: '593987654321' o México: '52155...').
+// Si lo dejas vacío (''), abrirá WhatsApp para que ella elija tu chat con el mensaje listo.
+// ============================================================================
+const NOTIFICATION_CONFIG = {
+  whatsappPhone: '', // <-- Tu número de WhatsApp aquí (opcional)
+  webhookUrl: ''     // <-- Webhook opcional (Discord / Formspree / Telegram)
+};
+
 class RomanticNarrativeController {
   constructor() {
     this.currentSceneId = 'scene-welcome';
@@ -21,9 +32,10 @@ class RomanticNarrativeController {
     this.celebrationTitle = document.getElementById('celebration-title');
     this.celebrationText = document.getElementById('celebration-text');
     this.optionsGrid = document.querySelector('.declaration-options-grid');
+    this.btnSendWhatsApp = document.getElementById('btn-send-whatsapp');
+    this.btnChooseAgain = document.getElementById('btn-choose-again');
 
     // Replay controls
-    this.btnReplayStart = document.getElementById('btn-replay-start');
     this.btnReplayRing = document.getElementById('btn-replay-ring');
     this.btnReplaySphere = document.getElementById('btn-replay-sphere');
 
@@ -76,7 +88,7 @@ class RomanticNarrativeController {
       });
     }
 
-    // 4. Declaration Choices
+    // 4. Declaration Choices (Can choose and switch as many times as she wants)
     if (this.btnChoiceYes) {
       this.btnChoiceYes.addEventListener('click', () => {
         this.handleChoice(
@@ -97,25 +109,35 @@ class RomanticNarrativeController {
       });
     }
 
-    // 5. Replay Navigation
-    if (this.btnReplayStart) {
-      this.btnReplayStart.addEventListener('click', () => {
-        this.resetExperience();
-        this.goToScene('scene-welcome');
+    // 5. Button to switch / choose another option
+    if (this.btnChooseAgain) {
+      this.btnChooseAgain.addEventListener('click', () => {
+        this.resetChoiceButtons();
       });
     }
 
+    // 6. Navigation: Volver a ver el anillo (permite volver a la declaración después)
     if (this.btnReplayRing) {
       this.btnReplayRing.addEventListener('click', () => {
+        this.resetChoiceButtons();
         this.goToScene('scene-ring');
       });
     }
 
+    // 7. Navigation: Explorar las estrellas nuevamente (prepara la animación del regalo y anillo para repetirse)
     if (this.btnReplaySphere) {
       this.btnReplaySphere.addEventListener('click', () => {
+        // Re-generar las tarjetas de la esfera
         if (this.sphereManager) {
           this.sphereManager.createCards();
         }
+        // Reiniciar la caja de regalo para que al avanzar salga NUEVAMENTE la animación completa del anillo
+        if (window.goldenRingManager) {
+          window.goldenRingManager.resetBox();
+        }
+        // Preparar las opciones de la declaración para la próxima visita
+        this.resetChoiceButtons();
+
         this.goToScene('scene-sphere');
       });
     }
@@ -130,29 +152,66 @@ class RomanticNarrativeController {
     if (this.celebrationText) this.celebrationText.textContent = text;
     if (this.celebrationOutcome) this.celebrationOutcome.classList.add('visible');
 
-    // Trigger non-stop romantic celebration cascade
+    // Preparar el enlace directo de WhatsApp con la respuesta seleccionada
+    if (this.btnSendWhatsApp) {
+      const respText = type === 'yes'
+        ? '¡Sí, me encantaría! 💕'
+        : 'Sigamos conociéndonos paso a paso 🌷';
+      const defaultMsg = `Hola ♡ Acabo de ver la sorpresa tan hermosa del anillo... y mi respuesta es: ${respText} ✨`;
+      const encodedMsg = encodeURIComponent(defaultMsg);
+
+      if (NOTIFICATION_CONFIG.whatsappPhone && NOTIFICATION_CONFIG.whatsappPhone.trim() !== '') {
+        const cleanPhone = NOTIFICATION_CONFIG.whatsappPhone.replace(/[^0-9]/g, '');
+        this.btnSendWhatsApp.href = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
+      } else {
+        this.btnSendWhatsApp.href = `https://api.whatsapp.com/send?text=${encodedMsg}`;
+      }
+    }
+
+    // Notificación en segundo plano (guarda en localStorage y opcionalmente dispara webhook)
+    this.recordResponseLocally(type);
+    if (NOTIFICATION_CONFIG.webhookUrl) {
+      this.sendSilentNotification(type);
+    }
+
+    // Disparar cascada de celebración continua
     if (window.romanticAtmosphere) {
       window.romanticAtmosphere.triggerCelebration(type);
     }
   }
 
-  resetExperience() {
-    // Reset celebration card
+  recordResponseLocally(type) {
+    try {
+      const history = JSON.parse(localStorage.getItem('romantic_responses') || '[]');
+      history.push({
+        choice: type,
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem('romantic_responses', JSON.stringify(history));
+    } catch (e) {}
+  }
+
+  sendSilentNotification(type) {
+    try {
+      fetch(NOTIFICATION_CONFIG.webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: 'romantic_choice_selected',
+          choice: type,
+          timestamp: new Date().toISOString(),
+          userAgent: navigator.userAgent
+        })
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
+  resetChoiceButtons() {
     if (this.optionsGrid) {
       this.optionsGrid.style.display = 'flex';
     }
     if (this.celebrationOutcome) {
       this.celebrationOutcome.classList.remove('visible');
-    }
-
-    // Reset box opening
-    if (window.goldenRingManager) {
-      window.goldenRingManager.resetBox();
-    }
-
-    // Reset cards in sphere
-    if (this.sphereManager) {
-      this.sphereManager.createCards();
     }
   }
 
@@ -173,7 +232,7 @@ class RomanticNarrativeController {
     targetScene.classList.add('active');
     this.currentSceneId = targetSceneId;
 
-    // Scroll to top of target scene
+    // Scroll al tope de la escena destino
     targetScene.scrollTop = 0;
   }
 }
