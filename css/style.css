@@ -1,0 +1,1307 @@
+/* ==========================================================================
+   HELLO KITTY — PINK ROMANTIC DREAM — A GOLDEN RING FOR YOU
+   Design System & Cinematic Stylesheet
+   ========================================================================== */
+
+:root {
+  /* Requested Color Palette */
+  --pink-light: #FFE4EF;
+  --pink-pastel: #FFD6E7;
+  --pink-romantic: #FF8FB8;
+  --pink-primary: #FF5C9A;
+  --pink-deep: #E84B88;
+  --white-soft: #FFF9FC;
+  --gold: #D4AF37;
+  --gold-light: #F5D77A;
+  --text-primary: #69364E;
+  --text-secondary: #95677D;
+
+  /* Additional Atmospheric Tokens */
+  --pink-glow: rgba(255, 92, 154, 0.35);
+  --pink-surface: rgba(255, 255, 255, 0.72);
+  --pink-surface-border: rgba(255, 143, 184, 0.3);
+  --gold-glow: rgba(212, 175, 55, 0.45);
+  --gold-gradient: linear-gradient(135deg, #FFE89E 0%, #D4AF37 50%, #AA8010 100%);
+  --rose-gradient: linear-gradient(135deg, #FF94BA 0%, #FF5C9A 50%, #E84B88 100%);
+  --card-shadow: 0 16px 36px -10px rgba(232, 75, 136, 0.22), 0 0 1px 1px rgba(255, 255, 255, 0.6);
+  --box-shadow-gold: 0 12px 32px rgba(212, 175, 55, 0.3);
+
+  /* Typography */
+  --font-serif: 'Playfair Display', 'Cormorant Garamond', serif;
+  --font-sans: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Layout & Transitions */
+  --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Base Reset & Mobile-First Foundation */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: var(--pink-light);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 50% 20%, #FFF2F7 0%, #FFDFED 50%, #FFCADF 100%);
+  overflow-y: hidden;
+  user-select: none;
+}
+
+/* Background Atmosphere & Ambient Lighting Canvas */
+#ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 900;
+}
+
+/* Ambient Radial Glows */
+.ambient-glow-1, .ambient-glow-2 {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.6;
+  transition: opacity 2s ease, background 2s ease;
+}
+
+.ambient-glow-1 {
+  top: -10vw;
+  right: -10vw;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, rgba(255, 143, 184, 0.45) 0%, rgba(255, 214, 231, 0) 70%);
+  animation: pulseGlow 8s ease-in-out infinite alternate;
+}
+
+.ambient-glow-2 {
+  bottom: -15vw;
+  left: -10vw;
+  width: 65vw;
+  height: 65vw;
+  background: radial-gradient(circle, rgba(255, 92, 154, 0.3) 0%, rgba(255, 228, 239, 0) 70%);
+  animation: pulseGlow 10s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.45; }
+  100% { transform: scale(1.15) translate(3%, 3%); opacity: 0.75; }
+}
+
+/* Audio Control Button (Floating Header) */
+.audio-toggle {
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top));
+  right: 18px;
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--pink-surface-border);
+  padding: 8px 14px;
+  border-radius: 30px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255, 92, 154, 0.15);
+  transition: transform 0.25s var(--transition-spring), background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.audio-toggle:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(255, 92, 154, 0.25);
+}
+
+.audio-toggle:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.audio-icon-animated {
+  display: inline-block;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.audio-playing .audio-icon-animated {
+  animation: audioBounce 1.4s ease-in-out infinite;
+}
+
+@keyframes audioBounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.18) rotate(10deg); }
+}
+
+/* App Main Container */
+#app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* Scene Master States */
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth), visibility 0.8s;
+  padding: 24px 20px;
+  padding-top: calc(24px + env(safe-area-inset-top));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scene.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.scene.exit-prev {
+  opacity: 0;
+  transform: translateY(-24px) scale(0.96);
+  pointer-events: none;
+}
+
+.scene.enter-next {
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  pointer-events: none;
+}
+
+/* Common Typography & Accents */
+.romantic-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 143, 184, 0.4);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pink-deep);
+  font-weight: 700;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(255, 92, 154, 0.12);
+}
+
+.romantic-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 5.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.25;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+}
+
+.romantic-subtitle {
+  font-size: clamp(0.95rem, 3.2vw, 1.15rem);
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 520px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+/* Buttons System */
+.btn-primary, .btn-secondary, .btn-romantic, .btn-gift, .btn-choice {
+  font-family: var(--font-sans);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 700;
+  border-radius: 50px;
+  transition: all 0.3s var(--transition-spring);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: var(--rose-gradient);
+  color: #ffffff;
+  padding: 15px 34px;
+  font-size: clamp(1rem, 3.6vw, 1.15rem);
+  box-shadow: 0 10px 26px rgba(232, 75, 136, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 34px rgba(232, 75, 136, 0.45);
+}
+
+.btn-primary:hover::after {
+  left: 100%;
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 143, 184, 0.45);
+  color: var(--text-primary);
+  padding: 12px 26px;
+  font-size: 0.95rem;
+  box-shadow: 0 6px 18px rgba(255, 92, 154, 0.12);
+}
+
+.btn-secondary:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  border-color: var(--pink-primary);
+}
+
+.btn-romantic {
+  background: linear-gradient(135deg, #FF7FA9 0%, #E84B88 100%);
+  color: #fff;
+  padding: 14px 30px;
+  font-size: 1rem;
+  box-shadow: 0 8px 24px rgba(232, 75, 136, 0.3);
+}
+
+.btn-romantic:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(232, 75, 136, 0.4);
+}
+
+/* ==========================================================================
+   SCENE 1: BIENVENIDA ROMÁNTICA
+   ========================================================================== */
+#scene-welcome {
+  text-align: center;
+}
+
+.welcome-card {
+  max-width: 500px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 36px;
+  padding: 36px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--card-shadow);
+  animation: cardFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes cardFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+
+.welcome-hk-container {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-hk-halo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 143, 184, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+  animation: haloPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes haloPulse {
+  0% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 0.9; }
+}
+
+.welcome-hk-img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 20px rgba(255, 92, 154, 0.28));
+  animation: kittyBounce 3.5s ease-in-out infinite;
+}
+
+@keyframes kittyBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
+}
+
+/* ==========================================================================
+   SCENE 2: UNIVERSO INTERACTIVO DE HELLO KITTY (FIBONACCI SPHERE 3D)
+   ========================================================================== */
+#scene-sphere {
+  padding: 0;
+  justify-content: flex-start;
+  touch-action: pan-y;
+}
+
+.sphere-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: calc(16px + env(safe-area-inset-top));
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
+  overflow: hidden;
+}
+
+/* Center Headline Inside / Above Sphere */
+.sphere-headline-badge {
+  z-index: 40;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 143, 184, 0.45);
+  padding: 10px 22px;
+  border-radius: 40px;
+  box-shadow: 0 8px 24px rgba(255, 92, 154, 0.18), 0 0 0 1px rgba(212, 175, 55, 0.2);
+  max-width: 90%;
+  animation: badgeGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes badgeGlow {
+  0% { box-shadow: 0 8px 24px rgba(255, 92, 154, 0.18); }
+  100% { box-shadow: 0 12px 30px rgba(255, 92, 154, 0.32), 0 0 14px rgba(212, 175, 55, 0.3); }
+}
+
+.sphere-headline-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 3.8vw, 1.45rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.sphere-headline-title .bow-icon {
+  color: var(--pink-primary);
+  display: inline-block;
+  margin: 0 4px;
+}
+
+/* 3D Sphere Interactive Viewport */
+.sphere-viewport {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.sphere-viewport:active {
+  cursor: grabbing;
+}
+
+.sphere-world {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* Individual Fibonacci Cards */
+.sphere-card {
+  position: absolute;
+  top: -85px;
+  left: -65px;
+  width: 130px;
+  height: 170px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 143, 184, 0.5);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(232, 75, 136, 0.22);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  pointer-events: auto;
+  transform-origin: center center;
+  will-change: transform, opacity, filter;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .sphere-card {
+    top: -110px;
+    left: -85px;
+    width: 170px;
+    height: 220px;
+    border-radius: 24px;
+  }
+}
+
+.sphere-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 16px 36px rgba(232, 75, 136, 0.4), 0 0 16px rgba(212, 175, 55, 0.4);
+}
+
+.sphere-card-img-wrap {
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+  background: #FFF0F5;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sphere-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.sphere-card:hover .sphere-card-img {
+  transform: scale(1.08);
+}
+
+.sphere-card-info {
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  border-top: 1px solid rgba(255, 143, 184, 0.25);
+}
+
+.sphere-card-num {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--pink-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sphere-card-snippet {
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+/* Floating Center Message in 3D Core */
+.sphere-center-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sphere-core-sparkle {
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle, rgba(255, 214, 231, 0.8) 0%, rgba(255, 143, 184, 0) 70%);
+  border-radius: 50%;
+  filter: blur(6px);
+  animation: coreGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes coreGlow {
+  0% { transform: scale(0.8); opacity: 0.4; }
+  100% { transform: scale(1.3); opacity: 0.85; }
+}
+
+/* Sphere Bottom Action Bar */
+.sphere-bottom-bar {
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.drag-hint {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+/* ==========================================================================
+   SCENE 3: LIGHTBOX ANIMADO DE MENSAJE
+   ========================================================================== */
+.lightbox-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: rgba(105, 54, 78, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 32px;
+  border: 1.5px solid rgba(255, 143, 184, 0.4);
+  max-width: 440px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(105, 54, 78, 0.35);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.4s var(--transition-spring);
+}
+
+.lightbox-modal.active .lightbox-content {
+  transform: scale(1) translateY(0);
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: rgba(255, 228, 239, 0.8);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  color: var(--pink-deep);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.lightbox-close-btn:hover {
+  transform: scale(1.12);
+  background: #ffffff;
+}
+
+.lightbox-img-wrap {
+  width: 100%;
+  max-height: 280px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFEBF2;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(255, 92, 154, 0.18);
+}
+
+.lightbox-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lightbox-num {
+  font-size: 0.85rem;
+  color: var(--pink-primary);
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lightbox-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.lightbox-message {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   SCENE 4 & 5: LA CAJA DE REGALO (GIFT BOX 3D)
+   ========================================================================== */
+#scene-gift-box {
+  text-align: center;
+}
+
+.gift-box-card {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gift-box-3d-wrapper {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 10px 0 24px;
+  perspective: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3D Box Container */
+.gift-box-stage {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  transform-style: preserve-3d;
+  animation: boxFloat 4s ease-in-out infinite alternate;
+  transition: transform 1s var(--transition-smooth);
+}
+
+@keyframes boxFloat {
+  0% { transform: translateY(0) rotateY(-8deg); }
+  100% { transform: translateY(-10px) rotateY(8deg); }
+}
+
+/* Box Body & Lid */
+.box-body {
+  position: absolute;
+  bottom: 0;
+  width: 180px;
+  height: 130px;
+  background: linear-gradient(135deg, #FFB9D2 0%, #FF85B2 50%, #E8518C 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 45px rgba(232, 75, 136, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.box-ribbon-v {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 100%;
+  background: linear-gradient(90deg, #FFE8A3 0%, #D4AF37 50%, #B8860B 100%);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.box-ribbon-h {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 32px;
+  background: linear-gradient(180deg, #FFE8A3 0%, #D4AF37 50%, #B8860B 100%);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.box-lid {
+  position: absolute;
+  top: 36px;
+  left: -8px;
+  width: 196px;
+  height: 48px;
+  background: linear-gradient(135deg, #FFCADF 0%, #FF97BE 50%, #FF659E 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(232, 75, 136, 0.35), 0 0 0 2px rgba(255, 255, 255, 0.5) inset;
+  z-index: 5;
+  transition: transform 1.2s var(--transition-spring), opacity 1s ease;
+  transform-origin: top center;
+}
+
+.box-lid-ribbon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 100%;
+  background: linear-gradient(90deg, #FFE8A3 0%, #D4AF37 50%, #B8860B 100%);
+}
+
+.box-bow {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.box-bow-knot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFF4CC 0%, #D4AF37 70%, #997300 100%);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.6);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box-bow-wing-left, .box-bow-wing-right {
+  position: absolute;
+  width: 38px;
+  height: 28px;
+  border-radius: 50% 50% 10% 50%;
+  background: linear-gradient(135deg, #FFE8A3 0%, #D4AF37 100%);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.box-bow-wing-left {
+  left: 6px;
+  transform: rotate(-25deg);
+}
+
+.box-bow-wing-right {
+  right: 6px;
+  border-radius: 50% 50% 50% 10%;
+  transform: rotate(25deg);
+}
+
+.box-shadow-ground {
+  position: absolute;
+  bottom: 12px;
+  width: 200px;
+  height: 28px;
+  background: radial-gradient(ellipse, rgba(232, 75, 136, 0.35) 0%, rgba(255, 228, 239, 0) 70%);
+  border-radius: 50%;
+  filter: blur(8px);
+}
+
+/* Light Beam Emanating from Inside Box upon opening */
+.box-light-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(255, 235, 150, 0.9) 0%, rgba(255, 180, 200, 0.6) 40%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(14px);
+  transition: opacity 0.8s ease, transform 1s ease;
+  z-index: 4;
+}
+
+/* Opening Animation Classes */
+.gift-box-stage.opening .box-bow {
+  transform: translateX(-50%) translateY(-40px) scale(0.6);
+  opacity: 0;
+}
+
+.gift-box-stage.opening .box-lid {
+  transform: translateY(-90px) rotateX(-50deg) rotateZ(15deg);
+  opacity: 0;
+}
+
+.gift-box-stage.opening .box-light-burst {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.6);
+}
+
+/* ==========================================================================
+   SCENE 6 & 7: EL ANILLO DORADO (GOLDEN RING REVELATION)
+   ========================================================================== */
+#scene-ring {
+  text-align: center;
+  padding-top: calc(20px + env(safe-area-inset-top));
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
+}
+
+.ring-presentation-card {
+  max-width: 520px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The Jewel Spotlight Stage */
+.ring-stage {
+  position: relative;
+  width: 290px;
+  height: 290px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 700px;
+}
+
+@media (min-width: 768px) {
+  .ring-stage {
+    width: 340px;
+    height: 340px;
+  }
+}
+
+/* Radial Golden Aura Behind the Ring */
+.ring-halo-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 240, 180, 0.85) 0%, rgba(255, 180, 210, 0.5) 45%, rgba(255, 228, 239, 0) 72%);
+  filter: blur(10px);
+  animation: ringHaloPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes ringHaloPulse {
+  0% { transform: scale(0.88); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 0.95; }
+}
+
+/* Rotating Golden Star Rays */
+.ring-rays {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(from 0deg, rgba(212, 175, 55, 0.15) 0deg, transparent 30deg, rgba(255, 215, 122, 0.25) 60deg, transparent 90deg, rgba(212, 175, 55, 0.15) 120deg, transparent 150deg, rgba(255, 215, 122, 0.25) 180deg, transparent 210deg, rgba(212, 175, 55, 0.15) 240deg, transparent 270deg, rgba(255, 215, 122, 0.25) 300deg, transparent 330deg, rgba(212, 175, 55, 0.15) 360deg);
+  border-radius: 50%;
+  animation: rotateRays 28s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateRays {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Ring Pod: Frosted Glass Frame */
+.ring-pod {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #FFF3F7 60%, #FFE2ED 100%);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 40px rgba(212, 175, 55, 0.28), 0 0 24px rgba(255, 143, 184, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+  cursor: grab;
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .ring-pod {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+.ring-pod:active {
+  cursor: grabbing;
+}
+
+/* Outer Golden Ring Border with Ornaments */
+.ring-pod-border {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--gold);
+  pointer-events: none;
+  animation: borderSpin 45s linear infinite;
+}
+
+@keyframes borderSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* The Ring Image (Golden Heart Diamonds) */
+.ring-display-img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 22px rgba(105, 54, 78, 0.25));
+  transition: transform 0.3s ease, opacity 0.5s ease;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Velvet Jewel Box Alternate View */
+.ring-velvet-img {
+  position: absolute;
+  width: 86%;
+  height: 86%;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.ring-velvet-img.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Specular Sparkle Highlights (Dancing stars on the diamond & gold) */
+.sparkle-flare {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  background: radial-gradient(circle, #FFFFFF 0%, #FFE98A 60%, transparent 100%);
+  clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+  filter: drop-shadow(0 0 6px rgba(255, 235, 120, 0.9));
+  animation: sparkleFlash 2.4s ease-in-out infinite;
+}
+
+.flare-1 {
+  top: 22%;
+  left: 48%;
+  animation-delay: 0.2s;
+  transform: scale(1.1);
+}
+
+.flare-2 {
+  top: 32%;
+  left: 28%;
+  animation-delay: 1.1s;
+  transform: scale(0.85);
+}
+
+.flare-3 {
+  top: 28%;
+  right: 24%;
+  animation-delay: 1.8s;
+  transform: scale(0.95);
+}
+
+@keyframes sparkleFlash {
+  0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+}
+
+/* Toggle Jewel Box Mode Button */
+.ring-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+}
+
+.ring-view-toggle:hover {
+  background: #ffffff;
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+/* Progressive Romantic Declaration Typography */
+.ring-prose-container {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  padding: 24px 20px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 24px;
+}
+
+.ring-main-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 5vw, 2.3rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.ring-prose-p {
+  font-size: clamp(0.92rem, 3.2vw, 1.05rem);
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.ring-prose-p:last-child {
+  margin-bottom: 0;
+  color: var(--pink-deep);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   SCENE 8: DECLARACIÓN ROMÁNTICA Y CELEBRACIÓN
+   ========================================================================== */
+#scene-declaration {
+  text-align: center;
+}
+
+.declaration-card {
+  max-width: 500px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 36px;
+  padding: 34px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--card-shadow);
+}
+
+.declaration-hk-wrap {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.declaration-hk-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(255, 92, 154, 0.25));
+  animation: declarationKitty 4s ease-in-out infinite;
+}
+
+@keyframes declarationKitty {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.05) translateY(-5px); }
+}
+
+.declaration-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+@media (min-width: 480px) {
+  .declaration-options-grid {
+    flex-direction: row;
+  }
+}
+
+.btn-choice {
+  flex: 1;
+  padding: 15px 18px;
+  font-size: 0.96rem;
+  border-radius: 30px;
+}
+
+.btn-choice-yes {
+  background: var(--rose-gradient);
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgba(232, 75, 136, 0.35);
+}
+
+.btn-choice-yes:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(232, 75, 136, 0.45);
+}
+
+.btn-choice-pace {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(255, 143, 184, 0.5);
+  color: var(--text-primary);
+  box-shadow: 0 6px 18px rgba(255, 92, 154, 0.12);
+}
+
+.btn-choice-pace:hover {
+  background: #ffffff;
+  border-color: var(--pink-primary);
+  transform: translateY(-2px);
+}
+
+/* Celebration Outcome Card (Revealed upon selection) */
+.celebration-outcome {
+  display: none;
+  width: 100%;
+  margin-top: 20px;
+  padding: 24px 18px;
+  background: radial-gradient(circle, #FFF4F9 0%, #FFE5F0 100%);
+  border: 1.5px solid rgba(255, 143, 184, 0.4);
+  border-radius: 28px;
+  animation: outcomeFadeIn 0.8s var(--transition-spring) forwards;
+}
+
+@keyframes outcomeFadeIn {
+  0% { opacity: 0; transform: scale(0.9) translateY(15px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.celebration-outcome.visible {
+  display: block;
+}
+
+.celebration-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--pink-deep);
+  margin-bottom: 10px;
+}
+
+.celebration-text {
+  font-size: 0.96rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.celebration-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   TOUCH & ACCESSIBILITY MICRO-INTERACTIONS
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
