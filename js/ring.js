@@ -1,7 +1,7 @@
 /**
  * Golden Ring & Gift Box Interactive Engine
- * Handles 3D gift box opening, golden ray bursting, interactive parallax tilt,
- * specular flare reflections, and dual luxury presentation toggle.
+ * Handles 3D luxury gift box opening, golden ray bursting, interactive parallax tilt,
+ * continuous specular flare reflections, and dual luxury presentation toggle.
  */
 
 class GoldenRingManager {
@@ -41,30 +41,34 @@ class GoldenRingManager {
     this.btnOpenBox.addEventListener('click', () => {
       this.openGiftBox();
     });
+
+    if (this.boxStage) {
+      this.boxStage.addEventListener('click', () => {
+        this.openGiftBox();
+      });
+    }
   }
 
   openGiftBox() {
-    if (this.boxStage.classList.contains('opening')) return;
+    if (!this.boxStage || this.boxStage.classList.contains('opening')) return;
 
-    // 1. Play magic golden chime
-    if (window.romanticAudio) {
-      window.romanticAudio.playMagicBurst();
-    }
-
-    // 2. Trigger box opening 3D animation
+    // Trigger box opening 3D animation
     this.boxStage.classList.add('opening');
 
-    // 3. Trigger extra golden sparkle burst
+    // Trigger golden stardust convergence
     if (window.romanticAtmosphere) {
       window.romanticAtmosphere.setConvergeMode(true);
     }
 
-    // 4. Transition to Ring Scene after cinematic opening
+    // Transition to Ring Scene after cinematic opening
     setTimeout(() => {
+      if (window.romanticAtmosphere) {
+        window.romanticAtmosphere.setConvergeMode(false);
+      }
       if (window.appNarrative) {
         window.appNarrative.goToScene('scene-ring');
       }
-    }, 1400);
+    }, 1450);
   }
 
   setupRingParallax() {
@@ -90,7 +94,7 @@ class GoldenRingManager {
 
     // Touch support for mobile devices
     this.ringStage.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
+      if (e.touches && e.touches.length > 0) {
         handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
       }
     }, { passive: true });
@@ -116,15 +120,11 @@ class GoldenRingManager {
       if (this.isShowingVelvet) {
         this.ringDisplayImg.style.opacity = '0';
         this.ringVelvetImg.classList.add('visible');
-        this.btnViewToggle.innerHTML = `<span>💍</span> Ver anillo en oro puro`;
+        this.btnViewToggle.innerHTML = `<span>💍</span> <span>Ver anillo en oro puro</span>`;
       } else {
         this.ringDisplayImg.style.opacity = '1';
         this.ringVelvetImg.classList.remove('visible');
-        this.btnViewToggle.innerHTML = `<span>🌹</span> Ver en estuche con rosas`;
-      }
-
-      if (window.romanticAudio) {
-        window.romanticAudio.playChime();
+        this.btnViewToggle.innerHTML = `<span>🌹</span> <span>Ver en estuche con rosas</span>`;
       }
     });
   }
@@ -136,7 +136,7 @@ class GoldenRingManager {
       this.tiltY += (this.targetTiltY - this.tiltY) * 0.08;
 
       if (this.ringPod) {
-        this.ringPod.style.transform = `perspective(700px) rotateX(${this.tiltX.toFixed(2)}deg) rotateY(${this.tiltY.toFixed(2)}deg) translateZ(10px)`;
+        this.ringPod.style.transform = `perspective(750px) rotateX(${this.tiltX.toFixed(2)}deg) rotateY(${this.tiltY.toFixed(2)}deg) translateZ(12px)`;
       }
 
       this.animFrameId = requestAnimationFrame(loop);

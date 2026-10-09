@@ -1,6 +1,7 @@
 /**
  * Main Application Orchestrator & Narrative State Machine
- * Coordinates 8 narrative scenes, transitions, and user choices.
+ * Coordinates narrative scenes, seamless transitions, and user choices.
+ * (100% focused on romantic visuals and rich animations, zero audio)
  */
 
 class RomanticNarrativeController {
@@ -12,8 +13,6 @@ class RomanticNarrativeController {
     this.btnStart = document.getElementById('btn-start');
     this.btnToGift = document.getElementById('btn-to-gift');
     this.btnToDeclaration = document.getElementById('btn-to-declaration');
-    this.btnAudioToggle = document.getElementById('btn-audio-toggle');
-    this.audioIcon = document.getElementById('audio-icon');
 
     // Declaration choices
     this.btnChoiceYes = document.getElementById('btn-choice-yes');
@@ -33,7 +32,6 @@ class RomanticNarrativeController {
 
   init() {
     this.bindEvents();
-    this.setupAudioControls();
 
     // Initialize 3D Sphere
     if (window.FibonacciSphereManager) {
@@ -45,11 +43,6 @@ class RomanticNarrativeController {
     // 1. Start from Welcome Screen
     if (this.btnStart) {
       this.btnStart.addEventListener('click', () => {
-        // Unlock and start romantic music box
-        if (window.romanticAudio) {
-          window.romanticAudio.start();
-          this.updateAudioButtonUI(true);
-        }
         this.goToScene('scene-sphere');
       });
     }
@@ -57,10 +50,6 @@ class RomanticNarrativeController {
     // 2. Transition from Sphere to Gift Box
     if (this.btnToGift) {
       this.btnToGift.addEventListener('click', () => {
-        if (window.romanticAudio) {
-          window.romanticAudio.playChime();
-        }
-
         // Particle converge effect
         if (window.romanticAtmosphere) {
           window.romanticAtmosphere.setConvergeMode(true);
@@ -83,9 +72,6 @@ class RomanticNarrativeController {
     // 3. Transition from Ring to Declaration
     if (this.btnToDeclaration) {
       this.btnToDeclaration.addEventListener('click', () => {
-        if (window.romanticAudio) {
-          window.romanticAudio.playChime();
-        }
         this.goToScene('scene-declaration');
       });
     }
@@ -144,13 +130,9 @@ class RomanticNarrativeController {
     if (this.celebrationText) this.celebrationText.textContent = text;
     if (this.celebrationOutcome) this.celebrationOutcome.classList.add('visible');
 
-    // Trigger celebration effects
+    // Trigger non-stop romantic celebration cascade
     if (window.romanticAtmosphere) {
       window.romanticAtmosphere.triggerCelebration(type);
-    }
-
-    if (window.romanticAudio) {
-      window.romanticAudio.playCelebration();
     }
   }
 
@@ -185,7 +167,7 @@ class RomanticNarrativeController {
       currentScene.classList.add('exit-prev');
       setTimeout(() => {
         currentScene.classList.remove('exit-prev');
-      }, 800);
+      }, 850);
     }
 
     targetScene.classList.add('active');
@@ -193,45 +175,6 @@ class RomanticNarrativeController {
 
     // Scroll to top of target scene
     targetScene.scrollTop = 0;
-  }
-
-  setupAudioControls() {
-    if (!this.btnAudioToggle) return;
-
-    this.btnAudioToggle.addEventListener('click', () => {
-      if (window.romanticAudio) {
-        if (!window.romanticAudio.isPlaying) {
-          window.romanticAudio.start();
-          this.updateAudioButtonUI(true);
-        } else {
-          const isAudible = window.romanticAudio.toggleMute();
-          this.updateAudioButtonUI(isAudible);
-        }
-      }
-    });
-
-    // Handle tab visibility to pause music gracefully
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        if (window.romanticAudio && window.romanticAudio.isPlaying && !window.romanticAudio.isMuted) {
-          window.romanticAudio.toggleMute();
-          this.updateAudioButtonUI(false);
-        }
-      }
-    });
-  }
-
-  updateAudioButtonUI(isAudible) {
-    if (!this.btnAudioToggle) return;
-    if (isAudible) {
-      this.btnAudioToggle.classList.add('audio-playing');
-      if (this.audioIcon) this.audioIcon.textContent = '🎵';
-      this.btnAudioToggle.title = 'Silenciar música';
-    } else {
-      this.btnAudioToggle.classList.remove('audio-playing');
-      if (this.audioIcon) this.audioIcon.textContent = '🔇';
-      this.btnAudioToggle.title = 'Activar música';
-    }
   }
 }
 

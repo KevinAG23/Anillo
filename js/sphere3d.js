@@ -255,9 +255,6 @@ class FibonacciSphereManager {
   }
 
   openLightbox(data) {
-    if (window.romanticAudio) {
-      window.romanticAudio.playChime();
-    }
     if (this.modalImg) this.modalImg.src = data.img;
     if (this.modalNum) this.modalNum.textContent = `Detalle #${String(data.id).padStart(2, '0')} ♡`;
     if (this.modalTitle) this.modalTitle.textContent = data.title;
@@ -267,18 +264,13 @@ class FibonacciSphereManager {
 
   startRenderLoop() {
     const loop = () => {
-      // Apply momentum & friction
+      // Continuous cosmic orbit & inertia damping (Never stops rotating!)
       if (!this.isDragging) {
-        this.rotY += this.velX;
+        this.rotY += this.velX + 0.0022;
         this.rotX = Math.max(-0.65, Math.min(0.65, this.rotX + this.velY));
 
         this.velX *= 0.94; // Smooth damping
         this.velY *= 0.94;
-
-        // Gentle cosmic idle drift
-        if (Math.abs(this.velX) < 0.0005) {
-          this.rotY += 0.0016;
-        }
       }
 
       this.updateCardTransforms();

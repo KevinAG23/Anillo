@@ -20,19 +20,13 @@
 </head>
 <body>
 
-  <!-- Atmospheric Background Canvas & Glow Orbs -->
+  <!-- Dynamic Atmospheric Background Canvas (Continuous Floating Hearts & Sparkles) -->
   <canvas id="ambient-canvas"></canvas>
   <canvas id="confetti-canvas"></canvas>
   <div class="ambient-glow-1"></div>
   <div class="ambient-glow-2"></div>
 
-  <!-- Floating Audio Mute/Unmute Control -->
-  <button id="btn-audio-toggle" class="audio-toggle" aria-label="Control de música romántica" title="Activar música">
-    <span id="audio-icon" class="audio-icon-animated">🎵</span>
-    <span>Música</span>
-  </button>
-
-  <!-- Application Container -->
+  <!-- Application Main Container -->
   <main id="app-container">
 
     <!-- ====================================================================
@@ -41,11 +35,16 @@
     <section id="scene-welcome" class="scene active" aria-label="Bienvenida romántica">
       <div class="welcome-card">
         <div class="romantic-tag">
-          <span>🎀</span> Una sorpresa para ti
+          <span class="tag-sparkle">✨</span> <span>Una sorpresa para ti</span> <span class="tag-sparkle">✨</span>
         </div>
 
         <div class="welcome-hk-container">
           <div class="welcome-hk-halo"></div>
+          <div class="welcome-hk-halo-inner"></div>
+          <!-- Orbiting mini hearts -->
+          <span class="orbit-heart orbit-h1">💖</span>
+          <span class="orbit-heart orbit-h2">✨</span>
+          <span class="orbit-heart orbit-h3">🌸</span>
           <img src="Imagenes/Hello_Kitty.webp" alt="Hello Kitty saludando con ternura" class="welcome-hk-img" />
         </div>
 
@@ -55,8 +54,9 @@
           Lo preparé pensando en ti, en tu sonrisa y en todas esas pequeñas cosas que hacen que seas una persona tan especial.
         </p>
 
-        <button id="btn-start" class="btn-primary" aria-label="Descubre tu sorpresa">
-          Descubre tu sorpresa ♡
+        <button id="btn-start" class="btn-primary btn-pulse-action" aria-label="Descubre tu sorpresa">
+          <span class="btn-shine"></span>
+          <span>Descubre tu sorpresa ♡</span>
         </button>
       </div>
     </section>
@@ -66,7 +66,7 @@
          ==================================================================== -->
     <section id="scene-sphere" class="scene" aria-label="Universo interactivo de Hello Kitty">
       <div class="sphere-stage">
-        <!-- Center Floating Headline Badge -->
+        <!-- Center Floating Headline Badge with Continuous Shimmer -->
         <header class="sphere-headline-badge">
           <h2 class="sphere-headline-title">
             Entre tantas estrellas, mis ojos te encontraron a ti. <span class="bow-icon">♡</span>
@@ -76,20 +76,22 @@
         <!-- 3D Fibonacci Sphere Interactive Viewport -->
         <div id="sphere-viewport" class="sphere-viewport" aria-label="Esfera 3D de recuerdos y mensajes románticos">
           <div id="sphere-world" class="sphere-world">
-            <!-- Cards will be populated dynamically by FibonacciSphereManager -->
+            <!-- Cards populated dynamically by FibonacciSphereManager -->
           </div>
           <div class="sphere-center-core">
             <div class="sphere-core-sparkle"></div>
+            <div class="sphere-core-halo"></div>
           </div>
         </div>
 
         <!-- Sphere Bottom Action Controls -->
         <footer class="sphere-bottom-bar">
           <div class="drag-hint">
-            <span>✨</span> Desliza en cualquier dirección para explorar
+            <span class="hint-icon">✨</span> Desliza en cualquier dirección para explorar el universo
           </div>
-          <button id="btn-to-gift" class="btn-romantic" aria-label="Avanzar a la sorpresa principal">
-            Tengo algo más para ti... 💗
+          <button id="btn-to-gift" class="btn-romantic btn-pulse-action" aria-label="Avanzar a la sorpresa principal">
+            <span class="btn-shine"></span>
+            <span>Tengo algo más para ti... 💗</span>
           </button>
         </footer>
       </div>
@@ -114,12 +116,12 @@
     </div>
 
     <!-- ====================================================================
-         ESCENA 4 & 5: LA CAJA DE REGALO (GIFT BOX 3D)
+         ESCENA 4 & 5: LA CAJA DE REGALO (3D LUXURY HELLO KITTY GIFT BOX)
          ==================================================================== -->
     <section id="scene-gift-box" class="scene" aria-label="Caja de regalo para ti">
       <div class="gift-box-card">
         <div class="romantic-tag">
-          <span>🎀</span> Un detalle desde el corazón
+          <span class="tag-sparkle">🎀</span> <span>Un detalle desde el corazón</span> <span class="tag-sparkle">🎀</span>
         </div>
 
         <h2 class="romantic-title">Hay algo que quisiera regalarte...</h2>
@@ -128,28 +130,61 @@
           Porque hay personas que llegan a nuestra vida y, sin darse cuenta, empiezan a ocupar un lugar muy especial.
         </p>
 
-        <!-- 3D Gift Box Presentation Stage -->
+        <!-- 3D Luxury Gift Box Presentation Stage with Hello Kitty Companion -->
         <div class="gift-box-3d-wrapper">
+          <!-- Background Rotating Golden Aura -->
+          <div class="gift-box-halo"></div>
+          <div class="gift-box-sunburst"></div>
+
+          <!-- Hello Kitty Peek Companion -->
+          <div class="gift-hk-companion">
+            <img src="Imagenes/Hello_Kitty.webp" alt="Hello Kitty con ilusión" class="gift-hk-img" />
+          </div>
+
+          <!-- Ground Soft Shadow -->
           <div class="box-shadow-ground"></div>
-          <div id="gift-box-stage" class="gift-box-stage">
+
+          <!-- Main 3D Gift Box Stage -->
+          <div id="gift-box-stage" class="gift-box-stage" title="Toca para abrir tu sorpresa">
+            <!-- Box Body with Quilted Satin Finish -->
             <div class="box-body">
+              <div class="box-body-shine"></div>
               <div class="box-ribbon-v"></div>
               <div class="box-ribbon-h"></div>
+              <div class="box-heart-charm">♡</div>
             </div>
+
+            <!-- Box 3D Lid -->
             <div class="box-lid">
+              <div class="box-lid-shine"></div>
               <div class="box-lid-ribbon"></div>
+              <!-- Grand Satin 3D Ribbon Bow with Golden Brooch -->
               <div class="box-bow">
-                <div class="box-bow-wing-left"></div>
-                <div class="box-bow-knot">🎀</div>
-                <div class="box-bow-wing-right"></div>
+                <div class="bow-loop bow-loop-left"></div>
+                <div class="bow-loop bow-loop-right"></div>
+                <div class="bow-tail bow-tail-left"></div>
+                <div class="bow-tail bow-tail-right"></div>
+                <div class="bow-center-brooch">
+                  <span class="brooch-heart">💖</span>
+                </div>
               </div>
             </div>
+
+            <!-- Internal Golden Beam Eruption -->
             <div class="box-light-burst"></div>
+            <div class="box-sparkle-fountain">
+              <span class="burst-dot b1">✨</span>
+              <span class="burst-dot b2">💛</span>
+              <span class="burst-dot b3">✨</span>
+              <span class="burst-dot b4">💖</span>
+              <span class="burst-dot b5">✨</span>
+            </div>
           </div>
         </div>
 
-        <button id="btn-open-box" class="btn-primary" aria-label="Abrir mi regalo">
-          Abrir mi regalo 🎀
+        <button id="btn-open-box" class="btn-primary btn-pulse-action" aria-label="Abrir mi regalo">
+          <span class="btn-shine"></span>
+          <span>Abrir mi regalo 🎀</span>
         </button>
       </div>
     </section>
@@ -160,21 +195,23 @@
     <section id="scene-ring" class="scene" aria-label="Revelación del anillo dorado">
       <div class="ring-presentation-card">
         <div class="romantic-tag">
-          <span>💍</span> Una joya para alguien inolvidable
+          <span class="tag-sparkle">💍</span> <span>Una joya para alguien inolvidable</span> <span class="tag-sparkle">💍</span>
         </div>
 
-        <!-- Jewel Spotlight Stage with 3D Parallax & Flares -->
+        <!-- Jewel Spotlight Stage with 3D Parallax & Continuous Flares -->
         <div id="ring-stage" class="ring-stage">
           <div class="ring-halo-bg"></div>
           <div class="ring-rays"></div>
+          <div class="ring-particles-halo"></div>
 
           <div id="ring-pod" class="ring-pod" title="Mueve o toca para admirar los reflejos dorados">
             <div class="ring-pod-border"></div>
 
-            <!-- Sparkling Diamond Flares -->
+            <!-- Sparkling Diamond Flares (Continuous Alternating Gleams) -->
             <div class="sparkle-flare flare-1"></div>
             <div class="sparkle-flare flare-2"></div>
             <div class="sparkle-flare flare-3"></div>
+            <div class="sparkle-flare flare-4"></div>
 
             <!-- Ring Image (Golden ring with heart diamonds from repository) -->
             <img id="ring-display-img" src="Imagenes/images (2).jpg" alt="Anillo dorado con diamantes en forma de corazón" class="ring-display-img" />
@@ -186,7 +223,7 @@
 
         <!-- View Mode Switcher -->
         <button id="ring-view-toggle" class="ring-view-toggle" aria-label="Cambiar modo de vista del anillo">
-          <span>🌹</span> Ver en estuche con rosas
+          <span>🌹</span> <span>Ver en estuche con rosas</span>
         </button>
 
         <!-- Progressive Romantic Declaration Prose -->
@@ -204,8 +241,9 @@
           </p>
         </article>
 
-        <button id="btn-to-declaration" class="btn-primary" aria-label="Avanzar a la pregunta final">
-          Un último deseo en mi corazón... 💌
+        <button id="btn-to-declaration" class="btn-primary btn-pulse-action" aria-label="Avanzar a la pregunta final">
+          <span class="btn-shine"></span>
+          <span>Un último deseo en mi corazón... 💌</span>
         </button>
       </div>
     </section>
@@ -216,10 +254,11 @@
     <section id="scene-declaration" class="scene" aria-label="Declaración romántica final">
       <div class="declaration-card">
         <div class="romantic-tag">
-          <span>🌸</span> Mi deseo sincero
+          <span class="tag-sparkle">🌸</span> <span>Mi deseo sincero</span> <span class="tag-sparkle">🌸</span>
         </div>
 
         <div class="declaration-hk-wrap">
+          <div class="declaration-hk-halo"></div>
           <img src="Imagenes/ieP699VN72ey6sm4yBRZpRzmUrNmLmKJc5D2Sl6HicYNGJKlhq_e7gXzaw3K9ouEG6fOybIDZv2NDOgBooH2EZaja5ZdFnm2nwh9qxML0km-WG-UtLYzhiXDIA7p775UoanaCiqASDr82nAAELAsGPSea5YOKOBGR9uiMKlxG5FzBeFiK56ntlSqUPNp-Dlj.jpg" alt="Hello Kitty romántica entre corazones" class="declaration-hk-img" />
         </div>
 
@@ -232,14 +271,15 @@
         <!-- Two Sweet, Respectful Choice Options -->
         <div class="declaration-options-grid">
           <button id="btn-choice-yes" class="btn-choice btn-choice-yes" aria-label="Aceptar con alegría">
-            Sí, me encantaría 💕
+            <span class="btn-shine"></span>
+            <span>Sí, me encantaría 💕</span>
           </button>
           <button id="btn-choice-pace" class="btn-choice btn-choice-pace" aria-label="Seguir conociéndonos con calma">
-            Sigamos conociéndonos 🌷
+            <span>Sigamos conociéndonos 🌷</span>
           </button>
         </div>
 
-        <!-- Celebration Outcome Presentation (Revealed dynamically) -->
+        <!-- Celebration Outcome Presentation (Revealed dynamically with non-stop cascade) -->
         <div id="celebration-outcome" class="celebration-outcome" role="region" aria-live="polite">
           <h3 id="celebration-title" class="celebration-title">¡Una respuesta maravillosa! 💖</h3>
           <p id="celebration-text" class="celebration-text">Mensaje...</p>
@@ -255,9 +295,8 @@
 
   </main>
 
-  <!-- JavaScript Modules & Libraries -->
+  <!-- JavaScript Modules (Zero audio files, 100% focused on visuals & romance) -->
   <script src="js/vendor/confetti.min.js"></script>
-  <script src="js/audio.js"></script>
   <script src="js/particles.js"></script>
   <script src="js/sphere3d.js"></script>
   <script src="js/ring.js"></script>
