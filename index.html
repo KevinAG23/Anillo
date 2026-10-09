@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- Master Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=2.5">
 </head>
 <body>
 
@@ -281,19 +281,12 @@
 
         <!-- Celebration Outcome Presentation (Revealed dynamically with non-stop cascade) -->
         <div id="celebration-outcome" class="celebration-outcome" role="region" aria-live="polite">
-          <h3 id="celebration-title" class="celebration-title">¡Una respuesta maravillosa! 💖</h3>
+          <h3 id="celebration-title" class="celebration-title">¡No te imaginas la ilusión que me da! 💖</h3>
           <p id="celebration-text" class="celebration-text">Mensaje...</p>
-
-          <!-- Botón directo para compartir respuesta por WhatsApp -->
-          <a id="btn-send-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary btn-pulse-action" style="margin-bottom: 14px; width: 100%; text-decoration: none; display: flex;">
-            <span class="btn-shine"></span>
-            <span>💌</span> <span>Decírtelo por WhatsApp ♡</span>
-          </a>
 
           <div class="celebration-actions">
             <button id="btn-replay-ring" class="btn-secondary">Volver a ver el anillo 💍</button>
             <button id="btn-replay-sphere" class="btn-secondary">Explorar las estrellas 🎀</button>
-            <button id="btn-choose-again" class="btn-secondary">Elegir otra respuesta 🌸</button>
           </div>
         </div>
       </div>
@@ -301,11 +294,11 @@
 
   </main>
 
-  <!-- JavaScript Modules (Zero audio files, 100% focused on visuals & romance) -->
-  <script src="js/vendor/confetti.min.js"></script>
-  <script src="js/particles.js"></script>
-  <script src="js/sphere3d.js"></script>
-  <script src="js/ring.js"></script>
-  <script src="js/app.js"></script>
+  <!-- JavaScript Modules with Cache-Busting Versioning -->
+  <script src="js/vendor/confetti.min.js?v=2.5"></script>
+  <script src="js/particles.js?v=2.5"></script>
+  <script src="js/sphere3d.js?v=2.5"></script>
+  <script src="js/ring.js?v=2.5"></script>
+  <script src="js/app.js?v=2.5"></script>
 </body>
 </html>

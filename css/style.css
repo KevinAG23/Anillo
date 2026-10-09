@@ -1506,16 +1506,14 @@ body {
 }
 
 .btn-choice-pace {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   border: 1.5px solid rgba(255, 143, 184, 0.55);
   color: var(--text-primary);
   box-shadow: 0 6px 20px rgba(255, 92, 154, 0.14);
-}
-
-.btn-choice-pace:hover {
-  background: #ffffff;
-  border-color: var(--pink-primary);
-  transform: translateY(-2px);
+  user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+  z-index: 10;
 }
 
 /* Celebration Outcome Card */

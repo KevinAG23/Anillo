@@ -1,19 +1,9 @@
 /**
  * Main Application Orchestrator & Narrative State Machine
  * Coordinates narrative scenes, seamless transitions, and user choices.
- * (100% focused on romantic visuals and rich animations, zero audio)
+ * Features the playful escaping button for "Sigamos conociéndonos",
+ * guaranteeing the romantic "Sí, me encantaría" outcome with no exit!
  */
-
-// ============================================================================
-// CONFIGURACIÓN PARA RECIBIR LA RESPUESTA
-// Si quieres que el botón de WhatsApp te envíe el mensaje directamente a tu número,
-// escribe aquí tu número con código de país (ejemplo Ecuador: '593987654321' o México: '52155...').
-// Si lo dejas vacío (''), abrirá WhatsApp para que ella elija tu chat con el mensaje listo.
-// ============================================================================
-const NOTIFICATION_CONFIG = {
-  whatsappPhone: '', // <-- Tu número de WhatsApp aquí (opcional)
-  webhookUrl: ''     // <-- Webhook opcional (Discord / Formspree / Telegram)
-};
 
 class RomanticNarrativeController {
   constructor() {
@@ -32,18 +22,29 @@ class RomanticNarrativeController {
     this.celebrationTitle = document.getElementById('celebration-title');
     this.celebrationText = document.getElementById('celebration-text');
     this.optionsGrid = document.querySelector('.declaration-options-grid');
-    this.btnSendWhatsApp = document.getElementById('btn-send-whatsapp');
-    this.btnChooseAgain = document.getElementById('btn-choose-again');
 
     // Replay controls
     this.btnReplayRing = document.getElementById('btn-replay-ring');
     this.btnReplaySphere = document.getElementById('btn-replay-sphere');
+
+    // Escaping button state
+    this.escapeCount = 0;
+    this.escapePhrases = [
+      'Sigamos conociéndonos 🌷',
+      '¡Epa! No se vale 🤭',
+      '¿Segura? Piénsalo bien 🙈',
+      '¡El otro botón es más bonito! 💕',
+      '¡Casi me atrapas! 😜',
+      '¡Por aquí no! jeje 🌸',
+      'Solo te queda decir que sí 🎀'
+    ];
 
     this.init();
   }
 
   init() {
     this.bindEvents();
+    this.setupEscapingButton();
 
     // Initialize 3D Sphere
     if (window.FibonacciSphereManager) {
@@ -62,12 +63,10 @@ class RomanticNarrativeController {
     // 2. Transition from Sphere to Gift Box
     if (this.btnToGift) {
       this.btnToGift.addEventListener('click', () => {
-        // Particle converge effect
         if (window.romanticAtmosphere) {
           window.romanticAtmosphere.setConvergeMode(true);
         }
 
-        // Disperse sphere cards into stardust
         if (this.sphereManager) {
           this.sphereManager.disperseIntoStardust(() => {
             this.goToScene('scene-gift-box');
@@ -84,11 +83,12 @@ class RomanticNarrativeController {
     // 3. Transition from Ring to Declaration
     if (this.btnToDeclaration) {
       this.btnToDeclaration.addEventListener('click', () => {
+        this.resetChoiceButtons();
         this.goToScene('scene-declaration');
       });
     }
 
-    // 4. Declaration Choices (Can choose and switch as many times as she wants)
+    // 4. "Sí, me encantaría 💕" (The only true selectable choice!)
     if (this.btnChoiceYes) {
       this.btnChoiceYes.addEventListener('click', () => {
         this.handleChoice(
@@ -99,24 +99,7 @@ class RomanticNarrativeController {
       });
     }
 
-    if (this.btnChoicePace) {
-      this.btnChoicePace.addEventListener('click', () => {
-        this.handleChoice(
-          'pace',
-          'Paso a paso, con todo el corazón... 🌸',
-          'Sin prisas y disfrutando cada instante. Quiero conocerte de verdad: en tus días alegres y también cuando andes molesta o irritada, porque me gusta todo de ti jeje. Me hace demasiada ilusión seguir compartiendo momentos a tu lado. ♡'
-        );
-      });
-    }
-
-    // 5. Button to switch / choose another option
-    if (this.btnChooseAgain) {
-      this.btnChooseAgain.addEventListener('click', () => {
-        this.resetChoiceButtons();
-      });
-    }
-
-    // 6. Navigation: Volver a ver el anillo (permite volver a la declaración después)
+    // 5. Navigation: Volver a ver el anillo
     if (this.btnReplayRing) {
       this.btnReplayRing.addEventListener('click', () => {
         this.resetChoiceButtons();
@@ -124,23 +107,57 @@ class RomanticNarrativeController {
       });
     }
 
-    // 7. Navigation: Explorar las estrellas nuevamente (prepara la animación del regalo y anillo para repetirse)
+    // 6. Navigation: Explorar las estrellas nuevamente (resetea para que la animación del regalo y anillo se repitan de nuevo)
     if (this.btnReplaySphere) {
       this.btnReplaySphere.addEventListener('click', () => {
-        // Re-generar las tarjetas de la esfera
         if (this.sphereManager) {
           this.sphereManager.createCards();
         }
-        // Reiniciar la caja de regalo para que al avanzar salga NUEVAMENTE la animación completa del anillo
         if (window.goldenRingManager) {
           window.goldenRingManager.resetBox();
         }
-        // Preparar las opciones de la declaración para la próxima visita
         this.resetChoiceButtons();
-
         this.goToScene('scene-sphere');
       });
     }
+  }
+
+  setupEscapingButton() {
+    if (!this.btnChoicePace) return;
+
+    const escapeAction = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      this.escapeCount++;
+
+      // Change button text to playful teasing phrases
+      const phraseIndex = Math.min(this.escapeCount, this.escapePhrases.length - 1);
+      this.btnChoicePace.innerHTML = `<span>${this.escapePhrases[phraseIndex]}</span>`;
+
+      // Calculate random playful displacement
+      const maxDistX = window.innerWidth < 480 ? 90 : 130;
+      const maxDistY = window.innerWidth < 480 ? 70 : 100;
+      const randomX = (Math.random() - 0.5) * (maxDistX * 2);
+      const randomY = (Math.random() - 0.5) * (maxDistY * 2);
+
+      this.btnChoicePace.style.transition = 'transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      this.btnChoicePace.style.transform = `translate(${randomX.toFixed(0)}px, ${randomY.toFixed(0)}px)`;
+
+      // Make the "Sí, me encantaría" button grow slightly bigger and pulse more brightly
+      if (this.btnChoiceYes) {
+        const growthScale = Math.min(1.35, 1 + this.escapeCount * 0.05);
+        this.btnChoiceYes.style.transform = `scale(${growthScale.toFixed(2)})`;
+      }
+    };
+
+    // Trigger escape on touch, click, or hover so she can NEVER click it!
+    this.btnChoicePace.addEventListener('pointerdown', escapeAction);
+    this.btnChoicePace.addEventListener('touchstart', escapeAction, { passive: false });
+    this.btnChoicePace.addEventListener('mouseenter', escapeAction);
+    this.btnChoicePace.addEventListener('click', escapeAction);
   }
 
   handleChoice(type, title, text) {
@@ -152,58 +169,10 @@ class RomanticNarrativeController {
     if (this.celebrationText) this.celebrationText.textContent = text;
     if (this.celebrationOutcome) this.celebrationOutcome.classList.add('visible');
 
-    // Preparar el enlace directo de WhatsApp con la respuesta seleccionada
-    if (this.btnSendWhatsApp) {
-      const respText = type === 'yes'
-        ? '¡Sí, me encantaría! 💕'
-        : 'Sigamos conociéndonos paso a paso 🌷';
-      const defaultMsg = `Hola ♡ Acabo de ver la sorpresa tan hermosa del anillo... y mi respuesta es: ${respText} ✨`;
-      const encodedMsg = encodeURIComponent(defaultMsg);
-
-      if (NOTIFICATION_CONFIG.whatsappPhone && NOTIFICATION_CONFIG.whatsappPhone.trim() !== '') {
-        const cleanPhone = NOTIFICATION_CONFIG.whatsappPhone.replace(/[^0-9]/g, '');
-        this.btnSendWhatsApp.href = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
-      } else {
-        this.btnSendWhatsApp.href = `https://api.whatsapp.com/send?text=${encodedMsg}`;
-      }
-    }
-
-    // Notificación en segundo plano (guarda en localStorage y opcionalmente dispara webhook)
-    this.recordResponseLocally(type);
-    if (NOTIFICATION_CONFIG.webhookUrl) {
-      this.sendSilentNotification(type);
-    }
-
-    // Disparar cascada de celebración continua
+    // Trigger non-stop romantic celebration cascade
     if (window.romanticAtmosphere) {
-      window.romanticAtmosphere.triggerCelebration(type);
+      window.romanticAtmosphere.triggerCelebration('full');
     }
-  }
-
-  recordResponseLocally(type) {
-    try {
-      const history = JSON.parse(localStorage.getItem('romantic_responses') || '[]');
-      history.push({
-        choice: type,
-        timestamp: new Date().toISOString()
-      });
-      localStorage.setItem('romantic_responses', JSON.stringify(history));
-    } catch (e) {}
-  }
-
-  sendSilentNotification(type) {
-    try {
-      fetch(NOTIFICATION_CONFIG.webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          event: 'romantic_choice_selected',
-          choice: type,
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent
-        })
-      }).catch(() => {});
-    } catch (e) {}
   }
 
   resetChoiceButtons() {
@@ -212,6 +181,16 @@ class RomanticNarrativeController {
     }
     if (this.celebrationOutcome) {
       this.celebrationOutcome.classList.remove('visible');
+    }
+
+    // Reset escaping button position, text, and scaling
+    this.escapeCount = 0;
+    if (this.btnChoicePace) {
+      this.btnChoicePace.style.transform = 'translate(0, 0)';
+      this.btnChoicePace.innerHTML = `<span>Sigamos conociéndonos 🌷</span>`;
+    }
+    if (this.btnChoiceYes) {
+      this.btnChoiceYes.style.transform = 'scale(1)';
     }
   }
 
@@ -232,7 +211,7 @@ class RomanticNarrativeController {
     targetScene.classList.add('active');
     this.currentSceneId = targetSceneId;
 
-    // Scroll al tope de la escena destino
+    // Scroll to top of target scene
     targetScene.scrollTop = 0;
   }
 }
